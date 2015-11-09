@@ -2,7 +2,7 @@
   %header
     - @categories.each do |category|
       - category.videos.each do |video|
-        %h3= link_to("#{video.category.name}", category_path(video.category))
+        %h3= link_to(video.category.name, video.category) # same as: link_to("#{video.category.name}", category_path(video.category))
         .videos.row
           .video.span2
             = link_to video do

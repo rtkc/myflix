@@ -2,9 +2,9 @@
   .container
     .row
       .video_large_cover.col-sm-7.col-sm-offset-1
-        %img(src="#{@video.large_cover_url}")
+        = image_tag @video.large_cover_url
       .video_info.col-sm-3
         %header
-          %h3= "#{@video.title}"
+          %h3= @video.title # No need for string interpolation as the expression returns a string anyways
           %span Rating: 4.5/5.0
-        %p= "#{@video.description}"
+        %p= @video.description
