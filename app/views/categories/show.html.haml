@@ -3,6 +3,6 @@
     %h3= @category.name
     .videos.row
       .video.span2
-        - @category.videos.each do |video|
+        - @category.recent_videos.each do |video|
           = link_to video do
             = image_tag video.small_cover_url
