@@ -16,7 +16,7 @@ group :development do
   gem 'thin'
   gem "better_errors"
   gem "binding_of_caller"
-  gem 'shoulda-matchers', '~> 3.0'
+  gem 'shoulda-matchers', '2.7.0', require: false
 end
 
 group :development, :test do

@@ -1,4 +1,3 @@
-require'pry'
 class SessionsController < ApplicationController
   def new
     redirect_to home_path if logged_in?
@@ -7,7 +6,7 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
-      session[:user_id] = user.id # rails conventions saves session information to cookies. Since cookies have limited size, we only save the user id. 
+      session[:user_id] = user.id # Since cookies have limited size, we only save the user id. 
       flash[:success] = 'You have successfully logged in'
       redirect_to home_path
     else 

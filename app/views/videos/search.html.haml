@@ -1,6 +1,6 @@
 %article.video_category
   %header
-    %h3= "Search results for: #{params[:search_term]}"
+    %h3 "Search results for: #{params[:search_term]}"
     .videos.row
       - @videos.each do |video|
         .video.col-sm-2
