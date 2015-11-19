@@ -2,6 +2,7 @@ class Video < ActiveRecord::Base
   attr_reader :search_term
 
   belongs_to :category
+  has_many :reviews, -> { order('created_at DESC') }
 
   validates_presence_of :title, :description
 
