@@ -22,7 +22,7 @@ describe ReviewsController do
       end
       it "redirects to show video path of current video object" do
         post :create, video_id: video.id, review: Fabricate.attributes_for(:review)
-        response.should redirect_to(video_path(video))
+        response.should redirect_to(video)
       end
     end
 
