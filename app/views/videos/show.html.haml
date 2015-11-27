@@ -24,7 +24,7 @@
           .row
             .col-sm-8
               = f.form_group do
-                = f.text_area :comment, label: "Write Review", control_col: "col-sm-8", rows: "6"
+                = f.text_area :review, label: "Write Review", control_col: "col-sm-8", rows: "6"
         %fieldset.form-group.actions.clearfix
           = f.submit "Submit"
           = link_to "Cancel", @video
@@ -38,4 +38,4 @@
                 %span Rating: #{review.rating} / 5
                 %p by <a href="">#{review.creator.full_name}</a>
               .col-sm-8
-                %p= review.comment
+                %p= review.review
