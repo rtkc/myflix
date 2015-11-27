@@ -20,16 +20,14 @@
                 %td
                   = f.text_field :order
                 %td
-                  = link_to "#{queue_item.video.title}", video_path(queue_item.video)
+                  = link_to queue_item.video_title, queue_item.video
                 %td
-                  = button_to "Play", nil, class: "btn btn-default"
-            
-            = bootstrap_form_for [queue_item.video] do |f|
-              %td
-                = f.select :rating, [[], [5, "5 stars"], [4, "4 stars"], [3, "3 stars"], [2, "2 stars"], [1, "1 stars"]], { label: "Rating" }, { class: "form-control"}
-              %td
-                = link_to "#{queue_item.video.category.name}", video_path(queue_item.video.category.name)
-              %td
-                = link_to "", method: :post do
-                  %i.glyphicon.glyphicon-remove
-
+                  = button_to "Play", nil, class: "btn btn-default" 
+              = bootstrap_form_for [queue_item.video, @review] do |f|
+                %td
+                  = f.select :rating, [[], [5, "5 stars"], [4, "4 stars"], [3, "3 stars"], [2, "2 stars"], [1, "1 stars"]], { label: "Rating" }, { class: "form-control"}
+                %td
+                  = link_to queue_item.category_name, queue_item.category_name
+                %td
+                  = link_to queue_item_path(queue_item), method: :delete do
+                    %i.glyphicon.glyphicon-remove 
