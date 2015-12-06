@@ -16,6 +16,6 @@ before_action :require_user
 
   private
   def review_params
-    params.require(:review).permit(:rating, :review)
+    params.require(:review).permit(:rating, :comment)
   end
 end
