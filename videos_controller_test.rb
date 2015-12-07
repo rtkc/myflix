@@ -1,6 +1,22 @@
 require 'spec_helper'
 
 describe VideosController do
+<<<<<<< HEAD
+  describe "GET index" do
+    it "sets the @categories variable" do
+      comedy = Category.create(name: "Comedy")
+      drama = Category.create(name: "Drama")
+
+      get :index
+      assigns(:categories).should == [comedy, drama]
+    end
+    it "renders the index template" do
+      get :index
+      response.should render_template :index
+    end
+  end
+end
+=======
   describe "GET show" do
     it "sets @video for authenticated users" do
       session[:user_id] = Fabricate(:user).id
@@ -9,18 +25,10 @@ describe VideosController do
       expect(assigns(:video)).to eq(video)
     end
 
-    it "sets @review for authenticated users" do
-      session[:user_id] = Fabricate(:user).id
-      video = Fabricate(:video)
-      get :show, id: video.id
-      expect(assigns(:review)).to be_a_new(Review)
-    end
-
     it "redirects to sign_in path if user not signed in" do
-      session[:user_id] = Fabricate(:user).id
       video = Fabricate(:video)
       get :show, id: video.id
-      expect(assigns(:review)).to be_a_new(Review)
+      response.should redirect_to(sign_in_path)
     end
   end
 
@@ -38,3 +46,4 @@ describe VideosController do
     end
   end
 end 
+>>>>>>> video-controller-tests
