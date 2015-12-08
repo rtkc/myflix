@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe QueueItem do
-  it { should belong_to(:user) }
-  it { should belong_to(:video) }
+  it { is_expected.to belong_to(:user) }
+  it { is_expected.to belong_to(:video) }
+  it { is_expected.to validate_numericality_of(:position).only_integer }
 
   describe "#video_title" do
     it "returns the title of the associated video" do
@@ -44,6 +45,35 @@ describe QueueItem do
       user = Fabricate(:user)
       queue_item = QueueItem.create(user: user, video: video)
       expect(queue_item.rating).to eq(nil)
+    end
+  end
+
+  
+  describe "#rating=" do 
+    it "changes rating if review is present" do
+      video = Fabricate(:video)
+      user = Fabricate(:user)
+      review = Fabricate(:review, creator: user, video: video, rating: 2)
+      queue_item = Fabricate(:queue_item, user: user, video: video)
+      queue_item.rating = 4
+      expect(Review.first.rating).to eq(4)
+    end
+
+    it "creates rating if review is not present" do
+      video = Fabricate(:video)
+      user = Fabricate(:user)
+      queue_item = Fabricate(:queue_item, user: user, video: video)
+      queue_item.rating = 4
+      expect(Review.first.rating).to eq(4)
+    end
+
+    it "clears rating if review is present" do
+      video = Fabricate(:video)
+      user = Fabricate(:user)
+      review = Fabricate(:review, creator: user, video: video, rating: 2)
+      queue_item = Fabricate(:queue_item, user: user, video: video)
+      queue_item.rating = nil
+      expect(Review.first.rating).to be_nil
     end
   end
 end

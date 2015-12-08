@@ -3,10 +3,11 @@ require 'spec_helper'
 describe Video do
   # no need to test video.save because video.save is implemented by rails automatically. We should only test code we write ourselves. 
   # we are testing that we have declared belongs_to and validates_presence_of relationships in Video Model (not its implementation)
-  it { should belong_to(:category) }
-  it { should validate_presence_of(:title) }
-  it { should validate_presence_of(:description) }
-  it { should have_many(:reviews).order("created_at DESC") }
+  it { is_expected.to belong_to(:category) }
+  it { is_expected.to validate_presence_of(:title) }
+  it { is_expected.to validate_presence_of(:description) }
+  it { is_expected.to have_many(:reviews).order("created_at DESC") }
+  it { is_expected.to have_many(:queue_items).order(:position) }
 
   describe "search_by_title" do
     it "returns empty array if cannot find any videos" do
