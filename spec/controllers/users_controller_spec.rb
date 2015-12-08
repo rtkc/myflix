@@ -8,7 +8,7 @@ describe UsersController do
     end
     it "renders new template" do
       get :new
-      response.should render_template :new
+      expect(response).to render_template :new
     end
   end
 
@@ -22,7 +22,7 @@ describe UsersController do
 
       it "redirects to root path" do
         post :create, user: { full_name: "Jim Bob", password: "password", email: "bob@email.com" }
-        response.should redirect_to(root_path)
+        expect(response).to redirect_to(root_path)
       end
     end
 
@@ -30,7 +30,7 @@ describe UsersController do
 
       it "renders new template" do
         post :create, user: { full_name: "Jim Bob", password: "password" }
-        response.should render_template :new
+        expect(response).to render_template :new
       end
 
       it "sets @user" do

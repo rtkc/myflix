@@ -1,4 +1,3 @@
-require 'pry'
 class QueueItemsController < ApplicationController
   before_action :require_user
 
@@ -8,16 +7,11 @@ class QueueItemsController < ApplicationController
   end
 
   def create
-    @video = Video.find(params[:video_id])
-    @queue_item = @video.queue_items.build(video_id: params[:video_id], position: assign_new_order_position, user: current_user)
+    video = Video.find(params[:video_id])
 
-    if no_duplicates?(@video) && @queue_item.save 
-      flash[:success] = "Video was added to your queue successfully"
-      redirect_to video_path(@video)
-    else
-      flash[:danger] = "This video could not be added to your queue. This video may already exist in your queue."
-      redirect_to video_path(@video)
-    end
+    queue_video(video) if no_duplicates?(video)
+
+    redirect_to video_path(video)
   end
 
   def update_queue
@@ -49,11 +43,11 @@ class QueueItemsController < ApplicationController
   end
 
   def no_duplicates?(video)
-    if QueueItem.where(video_id: video.id, user_id: current_user.id).count == 0
-      return true
-    else
-      false
-    end
+    QueueItem.where(video_id: video.id, user_id: current_user.id).count == 0
+  end
+
+  def queue_video(video)
+    QueueItem.create(video_id: params[:video_id], position: assign_new_order_position, user: current_user)
   end
 
   def update_queue_items

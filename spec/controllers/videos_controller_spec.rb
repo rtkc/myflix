@@ -34,7 +34,7 @@ describe VideosController do
 
     it "redirects to sign_in path if user not signed in" do
       get :search, search_term: "monk"
-      response.should redirect_to(sign_in_path)
+      expect(response).to redirect_to(sign_in_path)
     end
   end
 end 

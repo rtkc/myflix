@@ -5,14 +5,14 @@ describe QueueItemsController do
     it "sets @queue_items" do
       current_user = Fabricate(:user)
       session[:user_id] = current_user.id
-      queue_item1 = QueueItem.create(user_id: current_user.id, video_id: 1, position: 1 )
-      queue_item2 = QueueItem.create(user_id: current_user.id, video_id: 2, position: 2)
+      queue_item1 = Fabricate(:queue_item, user: current_user, video_id: 1, position: 1 )
+      queue_item2 = Fabricate(:queue_item, user: current_user, video_id: 2, position: 2)
       get :index
       expect(assigns(:queue_items)).to match_array([queue_item1, queue_item2])
     end
     it "redirects to sign_in page for unauthenticted users" do
       get :index
-      response.should redirect_to(sign_in_path)
+      expect(response).to redirect_to(sign_in_path)
     end
   end
 
@@ -29,7 +29,7 @@ describe QueueItemsController do
       it "renders to video show template after saving queue_item record" do
         video = Fabricate(:video)
         post :create, video_id: video.id
-        response.should redirect_to(video_path(video))
+        expect(response).to redirect_to(video_path(video))
       end
       it "creates queue item associated with video" do
         video = Fabricate(:video)
@@ -61,11 +61,11 @@ describe QueueItemsController do
     it "redirects to sign in path for unauthenticted users" do
       video = Fabricate(:video)
       post :create, video_id: video.id
-      response.should redirect_to(sign_in_path)
+      expect(response).to redirect_to(sign_in_path)
     end
   end
 
-  describe "POST update" do 
+  describe "POST update_queue" do 
     context "with authenticated user" do 
       let(:alice) { Fabricate(:user) }
       before { session[:user_id] = alice }
@@ -75,7 +75,7 @@ describe QueueItemsController do
       context "with valid input" do 
         it "redirect to my queue page" do 
           post :update_queue, queue_items: [{id: queue_item1.id, position: 2}, {id: queue_item2.id, position: 1}]
-          response.should redirect_to(queue_items_path)
+          expect(response).to redirect_to(queue_items_path)
         end
 
         it "reorder queue items" do 
@@ -92,7 +92,7 @@ describe QueueItemsController do
       context "with invalid input" do 
         it "redirects to queue page" do 
           post :update_queue, queue_items: [{id: queue_item1.id, position: 2.1}, {id: queue_item2.id, position: 1}]
-          response.should redirect_to(queue_items_path)
+          expect(response).to redirect_to(queue_items_path)
         end
         it "flashes error message" do 
           post :update_queue, queue_items: [{id: queue_item1.id, position: 2.1}, {id: queue_item2.id, position: 1}]
@@ -101,7 +101,7 @@ describe QueueItemsController do
         it "does not redorder queue items" do 
         post :update_queue, queue_items: [{id: queue_item1.id, position: 2.1}, {id: queue_item2.id, position: 1}]
         expect(alice.queue_items).to eq([queue_item1, queue_item2])
-      end
+        end
       end
     end
 
@@ -143,7 +143,7 @@ describe QueueItemsController do
         monk_queue_item = Fabricate(:queue_item, video_id: monk.id, user: current_user)
         delete :destroy, id: monk_queue_item.id
         count_monk_queue_item = QueueItem.where(video_id: monk.id, user_id: current_user.id).count
-        response.should redirect_to(queue_items_path) 
+        expect(response).to redirect_to(queue_items_path) 
       end
       it "normalizes queue items" do 
         queue_item1 = Fabricate(:queue_item, user: current_user, position: 1)
@@ -170,7 +170,7 @@ describe QueueItemsController do
         delete :destroy, id: monk_queue_item.id
         count_monk_queue_item = QueueItem.where(video_id: monk.id, user_id: alice.id).count
         delete :destroy, id: monk_queue_item.id
-        response.should redirect_to(sign_in_path) 
+        expect(response).to redirect_to(sign_in_path) 
       end
     end
   end
