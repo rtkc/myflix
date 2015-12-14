@@ -23,7 +23,7 @@ describe ReviewsController do
         end
         it "redirects to show video path of current video object" do
           post :create, video_id: video.id, review: Fabricate.attributes_for(:review)
-          response.should redirect_to(video_path(video))
+          expect(response).to redirect_to(video_path(video))
         end
         it "creates a review associated with the signed in user" do
           post :create, video_id: video.id, review: Fabricate.attributes_for(:review)
@@ -46,7 +46,7 @@ describe ReviewsController do
         end
         it "renders video show page again" do
           post :create, video_id: video.id, review: {rating: 4}
-          response.should render_template "videos/show"
+          expect(response).to render_template "videos/show"
         end
         it "does not save review to database" do
           post :create, video_id: video.id, review: {rating: 4}
@@ -60,7 +60,7 @@ describe ReviewsController do
 
       it "redirects to sign in path" do
         post :create, video_id: video.id
-        response.should redirect_to(sign_in_path)
+        expect(response).to redirect_to(sign_in_path)
       end
     end
   end

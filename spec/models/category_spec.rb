@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Category do
-  it { should have_many(:videos) }
+  it { is_expected.to have_many(:videos) }
 
   describe "#recent_videos" do
     it "Returns only videos in specified category" do

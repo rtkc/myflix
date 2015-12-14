@@ -5,12 +5,12 @@ describe SessionsController do
     it "redrects to home_path if logged in" do
       session[:user_id] = Fabricate(:user).id
       get :new
-      response.should redirect_to(home_path)
+      expect(response).to redirect_to(home_path)
     end
 
     it "renders new template if not logged in" do
       get :new
-      response.should render_template(:new)
+      expect(response).to render_template(:new)
     end
   end
 
@@ -23,14 +23,14 @@ describe SessionsController do
       end
       it "redirects to home path" do
         post :create, email: user.email, password: user.password
-        response.should redirect_to(home_path)
+        expect(response).to redirect_to(home_path)
       end
     end
 
     context "invalid user input" do
       it "redirects to sign in path" do
         post :create
-        response.should redirect_to(sign_in_path)
+        expect(response).to redirect_to(sign_in_path)
       end
     end
   end
