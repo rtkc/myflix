@@ -1,4 +1,3 @@
-- require 'pry'
 %article.video
   .container
     .row
@@ -11,7 +10,7 @@
         %p= @video.description
         .actions
           %a.btn.btn-primary(href="") Watch Now
-          = link_to "+ My Queue", video_queue_items_path(@video), method: 'post', class: "btn btn-default"
+          = link_to "+ My Queue", video_queue_items_path(@video), method: 'post', class: "btn btn-default" unless current_user.queued_video?(@video)
 
 %section.reviews.container
   .row
