@@ -10,17 +10,15 @@ feature 'User interacts with queue' do
     
     sign_in
 
-    visit home_path
+    
     add_video_to_queue(monk)
     expect_video_added_to_queue(monk)
     expect_add_my_queue_link_not_visible(monk)
 
-    visit home_path
     add_video_to_queue(south_park)
     expect_video_added_to_queue(south_park)
     expect_add_my_queue_link_not_visible(south_park)
 
-    visit home_path
     add_video_to_queue(futurama)
     expect_video_added_to_queue(futurama)
     expect_add_my_queue_link_not_visible(futurama)
@@ -30,22 +28,23 @@ feature 'User interacts with queue' do
     reorder_queue_positions(south_park, 1)
     reorder_queue_positions(futurama, 2)
     
-    click_button "Update Queue"
-    
+    update_queue
+
     expect_queue_items_reordered(monk, 3)
     expect_queue_items_reordered(south_park, 1)
     expect_queue_items_reordered(futurama, 2)
   end 
 
-  def expect_video_added_to_queue(video)
-    visit(queue_items_path)
-    expect(page).to have_content(video.title)
-  end
-
   def add_video_to_queue(video)
+    visit home_path
     find("a[href='/videos/#{video.id}']").click
     expect(page).to have_content(video.title)
     click_link "+ My Queue"
+  end
+
+  def expect_video_added_to_queue(video)
+    visit(queue_items_path)
+    expect(page).to have_content(video.title)
   end
 
   def expect_add_my_queue_link_not_visible(video)
@@ -57,6 +56,10 @@ feature 'User interacts with queue' do
     within(:xpath, "//tr[contains(.,'#{video.title}')]") do
       fill_in "queue_items[][position]", with: position
     end
+  end
+
+  def update_queue
+    click_button "Update Queue"
   end
 
   def expect_queue_items_reordered(video, position)
