@@ -7,7 +7,6 @@ class VideosController < ApplicationController
 
   def show
     @video = Video.find(params[:id])
-    @queue_item = QueueItem.new
     @review = Review.new
     @reviews = @video.reviews.reload
   end

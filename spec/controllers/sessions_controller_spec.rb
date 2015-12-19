@@ -3,7 +3,7 @@ require 'spec_helper'
 describe SessionsController do
   describe "GET new" do
     it "redrects to home_path if logged in" do
-      session[:user_id] = Fabricate(:user).id
+      set_current_user
       get :new
       expect(response).to redirect_to(home_path)
     end
@@ -28,9 +28,8 @@ describe SessionsController do
     end
 
     context "invalid user input" do
-      it "redirects to sign in path" do
-        post :create
-        expect(response).to redirect_to(sign_in_path)
+      it_behaves_like "require_sign_in" do
+        let(:action) { post :create }
       end
     end
   end

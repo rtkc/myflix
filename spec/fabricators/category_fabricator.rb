@@ -1,4 +1,3 @@
-Fabricator(:categories) do
-  name { "Comedy"}
-  user { Fabricate(:user) }
+Fabricator(:category) do
+  name { Faker::Name.name }
 end

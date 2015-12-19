@@ -14,14 +14,15 @@ describe UsersController do
 
   describe "POST create" do
     context "valid user input" do 
-
-      it "creates user record" do
-        post :create, user: { full_name: "Jim Bob", password: "password", email: "bob@email.com" }
+      before do 
+        post :create, user: Fabricate.attributes_for(:user)
+      end
+      
+      it "creates user record" do       
         expect(User.count).to eq(1)
       end
 
       it "redirects to root path" do
-        post :create, user: { full_name: "Jim Bob", password: "password", email: "bob@email.com" }
         expect(response).to redirect_to(root_path)
       end
     end
