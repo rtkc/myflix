@@ -7,9 +7,7 @@ feature 'User interacts with queue' do
     south_park = Fabricate(:video, title: 'South Park', category: comedy)
     futurama = Fabricate(:video, title: 'Futurama', category: comedy)
 
-    
     sign_in
-
     
     add_video_to_queue(monk)
     expect_video_added_to_queue(monk)
@@ -27,8 +25,6 @@ feature 'User interacts with queue' do
     reorder_queue_positions(monk, 3)
     reorder_queue_positions(south_park, 1)
     reorder_queue_positions(futurama, 2)
-    
-    update_queue
 
     expect_queue_items_reordered(monk, 3)
     expect_queue_items_reordered(south_park, 1)
@@ -56,9 +52,6 @@ feature 'User interacts with queue' do
     within(:xpath, "//tr[contains(.,'#{video.title}')]") do
       fill_in "queue_items[][position]", with: position
     end
-  end
-
-  def update_queue
     click_button "Update Queue"
   end
 

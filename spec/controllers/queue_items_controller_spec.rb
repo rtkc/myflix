@@ -49,7 +49,7 @@ describe QueueItemsController do
         post :create, video_id: monk.id
         south_park = Fabricate(:video)
         post :create, video_id: south_park.id
-        find_south_park_queue_item = QueueItem.where(video_id: south_park.id, user_id: alice.id).first
+        find_south_park_queue_item = QueueItem.find_by(video_id: south_park.id, user_id: alice.id)
         expect(find_south_park_queue_item.position).to eq(2)
       end
       it "does not add video to queue if video already exists in queue" do
