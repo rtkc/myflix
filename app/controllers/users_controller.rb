@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :set_user, only: [:edit, :update, :show]
+  before_action :require_user, only: [:show]
 
   def new
     @user = User.new
@@ -18,12 +18,13 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = User.find_by_id(params[:id])
+    @following_relationship = Relationship.new
+  end
+
   private
   def user_params
     params.require(:user).permit(:full_name, :password, :email)
-  end
-
-  def set_user
-    @user = User.find_by[params[:id]]
   end
 end
