@@ -12,6 +12,7 @@ class UsersController < ApplicationController
     if @user.save
       session[:user_id] = @user.id
       flash[:success] = 'You have signed up successfully.'
+      AppMailer.send_welcome_email(@user).deliver
       redirect_to root_path
     else
       render :new
