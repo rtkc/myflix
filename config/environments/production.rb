@@ -23,8 +23,8 @@ Myflix::Application.configure do
   address:              'smtp.gmail.com',
   port:                 587,
   domain:               'ancient-oasis-91497.herokuapp.com',
-  user_name:            'ENV['gmail_username']',
-  password:             'ENV['gmail_password']',
+  user_name:            ENV['GMAIL_USERNAME'],
+  password:             ENV['GMAIL_PASSWORD'],
   authentication:       'plain',
   enable_starttls_auto: true  }
 end
