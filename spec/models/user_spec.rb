@@ -38,4 +38,29 @@ describe User do
       expect(jim.following?(alice)).to be_falsey
     end
   end
+
+  describe '#follow' do
+    it 'user follows another user' do
+      jim = Fabricate(:user)
+      alice = Fabricate(:user)
+      jim.follow(alice)
+      expect(alice.followers).to include(jim)
+    end
+  end
+
+  describe '#can_follow?' do 
+    it 'user cannot follow themselves' do
+      jim = Fabricate(:user)
+      jim.follow(jim)
+      expect(jim.followers).not_to include([jim])
+    end
+
+    it 'does not do anything if the users if already following' do
+      jim = Fabricate(:user)
+      alice = Fabricate(:user)
+      Fabricate(:relationship, leader: jim, follower: alice)
+      jim.follow(alice)
+      expect(jim.followers).to eq([alice])
+    end
+  end
 end

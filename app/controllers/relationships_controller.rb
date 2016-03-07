@@ -7,7 +7,7 @@ class RelationshipsController < ApplicationController
 
   def create
     leader = User.find(params[:user_id])
-    follow(leader) if current_user.can_follow?(leader)
+    current_user.follow(leader) if current_user.can_follow?(leader)
     redirect_to people_path
   end
 
@@ -21,10 +21,5 @@ class RelationshipsController < ApplicationController
       flash[:error] = "Sorry, something went wrong. You are still following this person."
       redirect_to people_path
     end
-  end
-
-  private 
-  def follow(leader)
-    Relationship.create(follower: current_user, leader: leader)
   end
 end
