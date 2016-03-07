@@ -24,6 +24,9 @@ class UsersController < ApplicationController
     @following_relationship = Relationship.new
   end
 
+  def update
+  end
+
   private
   def user_params
     params.require(:user).permit(:full_name, :password, :email)
