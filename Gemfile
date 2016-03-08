@@ -13,6 +13,9 @@ gem 'bootstrap_form'
 gem 'bcrypt'
 gem 'fabrication'
 gem 'faker'
+gem 'sidekiq'
+gem 'puma'
+gem "sentry-raven"
 
 group :development do
   gem 'thin'
