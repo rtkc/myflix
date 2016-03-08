@@ -45,10 +45,10 @@ class UsersController < ApplicationController
 
   def handle_invitation
     if params[:invitation_token].present?
-      invitation = Invitation.where(token: params[:invitation_token]).first
+      invitation = Invitation.find_by(token: params[:invitation_token])
       @user.follow(invitation.inviter)
       invitation.inviter.follow(@user)
-      invitation.update_column(:token, nil)     
+      invitation.expire_token   
     end
   end
 end
