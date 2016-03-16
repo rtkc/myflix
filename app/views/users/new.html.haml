@@ -10,4 +10,5 @@
           = f.password_field :password
           = hidden_field_tag :invitation_token, @invitation_token
         %fieldset.actions.control-group.col-sm-offset-2
-          = f.submit "Submit", class: "btn btn-default"
+          .controls
+            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key=#{ENV['stripe_publishable_key']} data-image="/img/documentation/checkout/marketplace.png" data-name="MyFlix Sign Up Fee" data-description="$9.99 to sign up the best video service" data-amount="999"></script>
