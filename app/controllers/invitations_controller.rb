@@ -1,5 +1,4 @@
-class InvitationsController < ApplicationController
-  before_action :require_user
+class InvitationsController < AuthenticatedController
   def new
     @invitation = Invitation.new
   end
@@ -8,7 +7,7 @@ class InvitationsController < ApplicationController
      @invitation = Invitation.new(invitation_params.merge!(inviter: current_user))
 
     if @invitation.save
-      AppMailer.send_invitation_email(@invitation).deliver
+      AppMailer.delay.send_invitation_email(@invitation)
       flash[:success] = "Your inviitation was successfully sent."
       redirect_to home_path
     else 
