@@ -13,6 +13,14 @@ gem 'bootstrap_form'
 gem 'bcrypt'
 gem 'fabrication'
 gem 'faker'
+gem 'sidekiq'
+gem 'puma'
+gem "sentry-raven"
+gem "carrierwave"
+gem 'carrierwave-aws'
+gem 'figaro'
+gem 'mini_magick'
+gem 'stripe'
 
 group :development do
   gem 'thin'

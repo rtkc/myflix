@@ -18,7 +18,7 @@ feature 'invite users' do
     expect(page).to have_content("Register")
     fill_in "Full Name", with: "Jim Tealeaf"
     fill_in "Password", with: "12345"
-    click_button 'Submit'
+    click_button 'Sign Up'
 
     expect(page).to have_content("You have signed up successfully")
 

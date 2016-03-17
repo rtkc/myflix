@@ -1,4 +1,3 @@
-require 'pry'
 class UsersController < ApplicationController
 
   before_action :require_user, only: [:show]
@@ -24,6 +23,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       handle_invitation
+      handle_payment
       session[:user_id] = @user.id
       AppMailer.send_welcome_email(@user).deliver
       flash[:success] = 'You have signed up successfully.'
@@ -50,5 +50,16 @@ class UsersController < ApplicationController
       invitation.inviter.follow(@user)
       invitation.expire_token   
     end
+  end
+
+  def handle_payment
+    Stripe.api_key = ENV['stripe_secret_key']
+
+    Stripe::Charge.create(
+      :amount => 999,
+      :currency => "usd",
+      :source => params[:stripeToken],
+      :description => "Charge for #{@user.email}"
+    )
   end
 end
