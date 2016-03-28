@@ -21,14 +21,23 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.save
-      handle_invitation
-      handle_payment
-      session[:user_id] = @user.id
-      AppMailer.send_welcome_email(@user).deliver
-      flash[:success] = 'You have signed up successfully.'
-      redirect_to root_path
-    else
+    
+    if @user.valid?
+      charge = StripeWrapper::Charge.create(amount: 999, source: params[:stripeToken], description: "Sign up charge for #{@user.email}")
+      
+      if charge.successful? 
+        @user.save
+        handle_invitation
+        session[:user_id] = @user.id
+        AppMailer.send_welcome_email(@user).deliver
+        flash[:success] = 'You have signed up successfully.'
+        redirect_to sign_in_path
+      else
+        flash.now[:error] = charge.error_message
+        render :new
+      end
+    else 
+      flash.now[:error] = "The user information you entered is incorrect. Please try again."
       render :new
     end
   end
@@ -50,16 +59,5 @@ class UsersController < ApplicationController
       invitation.inviter.follow(@user)
       invitation.expire_token   
     end
-  end
-
-  def handle_payment
-    Stripe.api_key = ENV['stripe_secret_key']
-
-    Stripe::Charge.create(
-      :amount => 999,
-      :currency => "usd",
-      :source => params[:stripeToken],
-      :description => "Charge for #{@user.email}"
-    )
   end
 end

@@ -40,6 +40,10 @@ group :test do
   gem 'database_cleaner', '1.4.1'
   gem 'capybara'
   gem 'capybara-email'
+  gem 'capybara-webkit'
+  gem 'webmock'
+  gem 'vcr'
+  gem 'selenium-webdriver'
 end
 
 group :production do
