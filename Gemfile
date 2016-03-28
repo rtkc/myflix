@@ -13,6 +13,14 @@ gem 'bootstrap_form'
 gem 'bcrypt'
 gem 'fabrication'
 gem 'faker'
+gem 'sidekiq'
+gem 'puma'
+gem "sentry-raven"
+gem "carrierwave"
+gem 'carrierwave-aws'
+gem 'figaro'
+gem 'mini_magick'
+gem 'stripe'
 
 group :development do
   gem 'thin'
@@ -32,6 +40,10 @@ group :test do
   gem 'database_cleaner', '1.4.1'
   gem 'capybara'
   gem 'capybara-email'
+  gem 'capybara-webkit'
+  gem 'webmock'
+  gem 'vcr'
+  gem 'selenium-webdriver'
 end
 
 group :production do
